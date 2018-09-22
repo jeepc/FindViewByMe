@@ -61,14 +61,14 @@ public class FindViewByMeAction extends BaseGenerateAction {
     public void actionPerformed(AnActionEvent anActionEvent) {
         isAddRootView = false;
         isViewHolder = false;
-        isTarget26 = false;
+        isTarget26 = true;
         viewSaxHandler = new ViewSaxHandler();
         if (findViewDialog == null) {
             findViewDialog = new FindViewDialog();
         }
         getViewList(anActionEvent);
-        ActionUtil.switchAddM(viewParts, PropertiesComponent.getInstance().getBoolean(PropertiesKey.SAVE_ADD_M_ACTION, false));
-        isTarget26 = PropertiesComponent.getInstance().getBoolean(PropertiesKey.IS_TARGET_26, false);
+        ActionUtil.switchAddM(viewParts, PropertiesComponent.getInstance().getBoolean(PropertiesKey.SAVE_ADD_M_ACTION, true));
+        isTarget26 = PropertiesComponent.getInstance().getBoolean(PropertiesKey.IS_TARGET_26, true);
         updateTable();
         findViewDialog.setTitle("FindViewByMe");
         findViewDialog.btnCopyCode.setText("OK");
@@ -289,6 +289,11 @@ public class FindViewByMeAction extends BaseGenerateAction {
             if (column == 0) {
                 Boolean isSelected = (Boolean) tableModel.getValueAt(row, column);
                 viewSaxHandler.getViewPartList().get(row).setSelected(isSelected);
+                FindViewByMeAction.this.generateCode();
+            }else if(column == 4){
+                Boolean isSelected = (Boolean) tableModel.getValueAt(row, column);
+                System.out.println(isSelected);
+                viewSaxHandler.getViewPartList().get(row).setClickSelected(isSelected);
                 FindViewByMeAction.this.generateCode();
             }
         }

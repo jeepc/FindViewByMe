@@ -26,12 +26,16 @@ public class ViewPart {
     private static final String OUTPUT_FIND_VIEW_STRING_FOR_VIEW_HOLDER = "viewHolder.%s = (%s) %s.findViewById(R.id.%s);\n";
     private static final String OUTPUT_FIND_VIEW_STRING_FOR_VIEW_HOLDER_TARGET26 = "viewHolder.%s = %s.findViewById(R.id.%s);\n";
 
+    private static final String OUTPUT_SET_ON_CLICK = "%s.setOnClickListener(this);\n";
+    private static final String OUTPUT_SET_ON_CLICK_FOR_VIEW_HOLDER = "viewHolder.%s.setOnClickListener();\n";
+
     private String type;
     private String typeFull;
     private String id;
     private String name;
     private String scrNameFromId;
     private boolean selected;
+    private boolean clickSelected;
 
 
     public ViewPart() {
@@ -101,6 +105,13 @@ public class ViewPart {
         this.selected = selected;
     }
 
+    public boolean isClickSelected() {
+        return clickSelected;
+    }
+
+    public void setClickSelected(boolean clickSelected) {
+        this.clickSelected = clickSelected;
+    }
 
     public String getDeclareString(boolean isViewHolder, boolean isShow) {
         if (isViewHolder) {
@@ -161,6 +172,14 @@ public class ViewPart {
             return String.format(OUTPUT_FIND_VIEW_STRING_FOR_VIEW_HOLDER_TARGET26, name, rootView, id);
 
         return String.format(OUTPUT_FIND_VIEW_STRING_FOR_VIEW_HOLDER, name, type, rootView, id);
+    }
+    public String getSetOnClickString() {
+
+        return String.format(OUTPUT_SET_ON_CLICK, name);
+    }
+    public String getSetOnClickStringForViewHolder() {
+
+        return String.format(OUTPUT_SET_ON_CLICK_FOR_VIEW_HOLDER, name);
     }
 
 

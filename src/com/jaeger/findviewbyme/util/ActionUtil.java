@@ -15,7 +15,8 @@ import java.util.List;
  * 16/5/28.
  */
 public class ActionUtil {
-    private final static String[] HEADERS = {"selected", "type", "id", "name"};
+    private final static String[] HEADERS = {"selected", "type", "id", "name", "click"};
+    private static final int COLUMN = 5;
 
     public static List<ViewPart> getViewPartList(ViewSaxHandler viewSaxHandler, String oriContact) {
         try {
@@ -51,6 +52,7 @@ public class ActionUtil {
             }
         }
         stringBuilder.append("\n");
+        boolean isClickSelected = false;
         for (ViewPart viewPart : viewParts) {
             if (viewPart.isSelected()) {
 
@@ -62,7 +64,21 @@ public class ActionUtil {
                     stringBuilder.append(viewPart.getFindViewString(isTarget26));
                 }
             }
+
+            if (viewPart.isClickSelected()) {
+                if (isViewHolder) {
+                    stringBuilder.append(viewPart.getSetOnClickStringForViewHolder());
+                } else {
+                    stringBuilder.append(viewPart.getSetOnClickString());
+                }
+                isClickSelected = true;
+            }
+            stringBuilder.append("\n");
+            if (!isViewHolder&&isClickSelected) {
+                setOnClickString(viewParts, stringBuilder);
+            }
         }
+
         return stringBuilder.toString();
     }
 
@@ -75,6 +91,7 @@ public class ActionUtil {
             }
 
         } else {
+            boolean isClickSelected = false;
             for (ViewPart viewPart : viewParts) {
                 if (viewPart.isSelected()) {
                     stringBuilder.append(viewPart.getDeclareString(isViewHolder, true));
@@ -92,18 +109,44 @@ public class ActionUtil {
                         stringBuilder.append(viewPart.getFindViewString(isTarget26));
                     }
                 }
+                if (viewPart.isClickSelected()) {
+                    if (isViewHolder) {
+                        stringBuilder.append(viewPart.getSetOnClickStringForViewHolder());
+                    } else {
+                        stringBuilder.append(viewPart.getSetOnClickString());
+                    }
+                    isClickSelected = true;
+                }
             }
+            stringBuilder.append("\n");
+            if (!isViewHolder&&isClickSelected) {
+                setOnClickString(viewParts, stringBuilder);
+            }
+
         }
         return stringBuilder.toString();
+    }
+
+    private static void setOnClickString(List<ViewPart> viewParts, StringBuilder sb) {
+        sb.append("int id = v.getId();\n" +
+                "switch (id){\n"
+        );
+        for (ViewPart viewPart : viewParts) {
+            if (viewPart.isClickSelected()) {
+               sb.append(String.format("    case R.id.%s:\n\n" +
+                       "        break;\n",viewPart.getId()));
+            }
+        }
+        sb.append(" }");
     }
 
     public static DefaultTableModel getTableModel(List<ViewPart> viewParts, TableModelListener tableModelListener) {
         DefaultTableModel tableModel;
         int size = viewParts.size();
-        Object[][] cellData = new Object[size][4];
+        Object[][] cellData = new Object[size][COLUMN];
         for (int i = 0; i < size; i++) {
             ViewPart viewPart = viewParts.get(i);
-            for (int j = 0; j < 4; j++) {
+            for (int j = 0; j < COLUMN; j++) {
                 switch (j) {
                     case 0:
                         cellData[i][j] = viewPart.isSelected();
@@ -117,17 +160,20 @@ public class ActionUtil {
                     case 3:
                         cellData[i][j] = viewPart.getName();
                         break;
+                    case 4:
+                        cellData[i][j] = viewPart.isClickSelected();
+                        break;
                 }
             }
         }
 
 
         tableModel = new DefaultTableModel(cellData, HEADERS) {
-            final Class[] typeArray = {Boolean.class, Object.class, Object.class, Object.class};
+            final Class[] typeArray = {Boolean.class, Object.class, Object.class, Object.class, Boolean.class};
 
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 0;
+                return column == 0 || column == 4;
             }
 
             @SuppressWarnings("rawtypes")

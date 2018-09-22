@@ -82,6 +82,7 @@ public class FindViewDialog extends JDialog {
             }
         });
 
+        chbAddM.setSelected(PropertiesComponent.getInstance().getBoolean(PropertiesKey.SAVE_ADD_M_ACTION, true));
         chbAddM.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -101,6 +102,7 @@ public class FindViewDialog extends JDialog {
             }
         });
 
+        chbIsTarget26.setSelected(PropertiesComponent.getInstance().getBoolean(PropertiesKey.IS_TARGET_26, true));
         chbIsTarget26.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
