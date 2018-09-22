@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>com.jaeger.findviewbyme</id>
     <name>FindViewByMe</name>
-    <version>1.4.0</version>
+    <version>1.4.1</version>
     <vendor email="chjie.jaeger@gmail.com" url="http://laobie.github.io">Jaeger</vendor>
 
     <description><![CDATA[
@@ -9,12 +9,8 @@
     ]]></description>
 
     <change-notes><![CDATA[
-     <li>1. Added smart cast checkbox when targeting API 26</li>
-     <li>2. Support generate "findViewById" code for activity.</li>
-     <li>3. Support generate "findViewById" code for fragment, and you can customize root view name.</li>
-     <li>4. Support generate "findViewById" code for ViewHolder.</li>
-     <li>5. Add search function</li>
-     <li>6. Bug fix</li>
+     <li>1. Support "setOnClickListener"</li>
+     <li>2. Support kotlin</li>
      <br>
     ]]>
     </change-notes>

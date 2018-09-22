@@ -7,6 +7,10 @@ A plugin for android developer, with the plugin you can generate "findViewById" 
 [JetBrains Plugin Repository :: FindViewByMe](https://plugins.jetbrains.com/plugin/8261)
 
 ### Usage
+1.4.1 support "setOnClickListener"
+
+1.4.0 support kotlin
+
 1.3.9 Support for targeting API 26
 
 1.3.6 now can remember "add m" profile info, thanks [xcc3641 \(谢三弟\)](https://github.com/xcc3641)
